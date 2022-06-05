@@ -32,9 +32,10 @@ def scraping_progress_data(my_mail, my_pass, no_headless_mode):
         # driver = webdriver.Chrome('chromedriver.exe', chrome_options=options)
 
         # WebDriver のオプションを設定する
+        print('connectiong to remote browser...')
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
-        print('connectiong to remote browser...')
+
         driver = webdriver.Chrome(options=options)
 
     url = 'https://school.code4biz.jp/login'
