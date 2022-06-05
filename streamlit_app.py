@@ -10,7 +10,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
-import chromedriver_binary
+
+# import chromedriver_binary
 
 
 sns.set(style='dark', font='Meiryo')
@@ -28,7 +29,6 @@ def scraping_progress_data(my_mail, my_pass, no_headless_mode):
         # ヘッドレスモード
         options = Options()
         options.add_argument('--headless')
-        print('connectiong to remote browser...')
         driver = webdriver.Chrome(service=service, chrome_options=options)
         # driver = webdriver.Chrome('chromedriver.exe', chrome_options=options)
 
