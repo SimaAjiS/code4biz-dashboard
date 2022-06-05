@@ -18,7 +18,7 @@ sns.set(style='dark', font='Meiryo')
 
 @st.cache
 def scraping_progress_data(my_mail, my_pass, no_headless_mode):
-    # service = Service(ChromeDriverManager().install())
+    service = Service(ChromeDriverManager().install())
 
     if no_headless_mode:
         # ブラウザ起動モード
