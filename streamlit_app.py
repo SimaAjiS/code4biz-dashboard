@@ -21,7 +21,8 @@ def scraping_progress_data(my_mail, my_pass, no_headless_mode):
 
     if no_headless_mode:
         # ブラウザ起動モード
-        driver = webdriver.Chrome(service=service)
+        # driver = webdriver.Chrome(service=service)
+        driver = webdriver.Chrome('chromedriver.exe')
     else:
         # ヘッドレスモード
         options = Options()
