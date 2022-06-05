@@ -4,3 +4,4 @@ seaborn
 streamlit
 selenium
 webdriver_manager
+chromedriver_binary
