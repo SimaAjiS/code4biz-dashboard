@@ -7,9 +7,9 @@ import seaborn as sns
 import streamlit as st
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
+# from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
+# from webdriver_manager.chrome import ChromeDriverManager
 
 
 sns.set(style='dark', font='Meiryo')
@@ -17,7 +17,7 @@ sns.set(style='dark', font='Meiryo')
 
 @st.cache
 def scraping_progress_data(my_mail, my_pass, no_headless_mode):
-    service = Service(ChromeDriverManager().install())
+    # service = Service(ChromeDriverManager().install())
 
     if no_headless_mode:
         # ブラウザ起動モード
