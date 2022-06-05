@@ -27,7 +27,8 @@ def scraping_progress_data(my_mail, my_pass, no_headless_mode):
         # ヘッドレスモード
         options = Options()
         options.add_argument('--headless')
-        driver = webdriver.Chrome(service=service, chrome_options=options)
+        # driver = webdriver.Chrome(service=service, chrome_options=options)
+        driver = webdriver.Chrome('chromedriver.exe', chrome_options=options)
 
     url = 'https://school.code4biz.jp/login'
     driver.get(url)
