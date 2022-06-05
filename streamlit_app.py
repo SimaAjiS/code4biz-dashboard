@@ -29,8 +29,6 @@ def scraping_progress_data(my_mail, my_pass, no_headless_mode):
 
     url = 'https://school.code4biz.jp/login'
     driver.get(url)
-
-    # 待機処理1秒
     sleep(0.5)
 
     # ログインページ処理
@@ -44,9 +42,7 @@ def scraping_progress_data(my_mail, my_pass, no_headless_mode):
     login_mail.send_keys(my_mail)
     login_passwd.send_keys(my_pass)
 
-    # 待機処理1秒
     sleep(0.5)
-
     # ログインボタンを押す
     btn = form.find_element(by=By.TAG_NAME, value='button')
     btn.click()
@@ -125,6 +121,38 @@ def create_barplot_progress(df):
     return fig, ax
 
 
+# 進捗指標の配置
+def place_metrics(df):
+    col1, col2, col3, col4, col5 = st.columns(5)
+    for index, row in df.iterrows():
+        finished_ratio = row['Progress[%]']
+        remain_ratio = finished_ratio - 100
+        match index % 5:
+            case 0:
+                with col1:
+                    st.metric(label=row['Course name'],
+                              value=f'{finished_ratio :.1f} %',
+                              delta=f'{remain_ratio :.1f} %')
+            case 1:
+                with col2:
+                    st.metric(label=row['Course name'],
+                              value=f'{finished_ratio :.1f} %',
+                              delta=f'{remain_ratio :.1f} %')
+            case 2:
+                with col3:
+                    st.metric(label=row['Course name'],
+                              value=f'{finished_ratio :.1f} %',
+                              delta=f'{remain_ratio :.1f} %')
+            case 3:
+                with col4:
+                    st.metric(label=row['Course name'],
+                              value=f'{finished_ratio :.1f} %',
+                              delta=f'{remain_ratio :.1f} %')
+            case 4:
+                with col5:
+                    st.metric(label=row['Course name'],
+                              value=f'{finished_ratio :.1f} %',
+                              delta=f'{remain_ratio :.1f} %')
 
 
 def main():
@@ -134,12 +162,11 @@ def main():
 
     st.write('1. code4bizログイン用認証ファイルをJSON形式で各自のローカル環境に保存します')
     code = '''
-    {
-        "my_mail": "ABC@123",
-        "my_pass": "DEF456"
-    }
+    {"my_mail": "ABC@123",
+    "my_pass": "DEF456"}
     '''
-    st.code(code, language='json')
+    st.sidebar.write('JSON記載例')
+    st.sidebar.code(code, language='json')
 
     st.write('2. ローカルに保存した認証用JSONファイルを下記へ読み込ませます')
     uploaded_file = st.file_uploader('', type=['json'])
@@ -174,17 +201,8 @@ def main():
             with col_R:
                 st.dataframe(df_text)
 
-            st.dataframe(df)
-
-            st.sidebar.write('# ')
-            st.sidebar.write('5. 各コース毎の進捗度指標')
-
-            item = df['Course nmae']
-
-
-
-
-            st.sidebar.metric(label="Gas price", value=4, delta=-0.5, delta_color="inverse")
+            st.write('5. 各コース毎の進捗度指標')
+            place_metrics(df)
 
 
 if __name__ == '__main__':
