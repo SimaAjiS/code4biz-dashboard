@@ -7,9 +7,10 @@ import seaborn as sns
 import streamlit as st
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-# from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-# from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
+import chromedriver_binary
 
 
 sns.set(style='dark', font='Meiryo')
@@ -25,10 +26,16 @@ def scraping_progress_data(my_mail, my_pass, no_headless_mode):
         driver = webdriver.Chrome('chromedriver.exe')
     else:
         # ヘッドレスモード
-        options = Options()
-        options.add_argument('--headless')
+        # options = Options()
+        # options.add_argument('--headless')
         # driver = webdriver.Chrome(service=service, chrome_options=options)
-        driver = webdriver.Chrome('chromedriver.exe', chrome_options=options)
+        # driver = webdriver.Chrome('chromedriver.exe', chrome_options=options)
+
+        # WebDriver のオプションを設定する
+        options = webdriver.ChromeOptions()
+        options.add_argument('--headless')
+        print('connectiong to remote browser...')
+        driver = webdriver.Chrome(options=options)
 
     url = 'https://school.code4biz.jp/login'
     driver.get(url)
