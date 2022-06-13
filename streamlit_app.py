@@ -187,8 +187,8 @@ def main():
             scraping.success('データ取得が完了しました')
 
             # 各コース毎の進捗度一覧を表とグラフで可視化
-            col_L, col_R = st.columns(2)
-            with col_L:
+            col_left, col_right = st.columns(2)
+            with col_left:
                 fig, ax = create_barplot_progress(df)
                 st.write('4. 各コース毎の進捗度一覧')
                 st.pyplot(fig)
@@ -200,7 +200,7 @@ def main():
                         file_name="progress_bar.png",
                         mime="image/png"
                     )
-            with col_R:
+            with col_right:
                 st.dataframe(df_text)
 
             st.write('5. 各コース毎の進捗度指標')
