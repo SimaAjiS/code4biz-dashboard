@@ -11,21 +11,19 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
-# import chromedriver_binary
-
 
 sns.set(style='dark', font='Meiryo')
 
 
 @st.cache
-def scraping_progress_data(my_mail, my_pass, no_headless_mode):
+def scraping_progress_data(my_mail, my_pass, run_mode):
     service = Service(ChromeDriverManager().install())
 
-    if no_headless_mode:
+    if run_mode == 'ブラウザ起動モード':
         # ブラウザ起動モード
         driver = webdriver.Chrome(service=service)
         # driver = webdriver.Chrome('chromedriver.exe')
-    else:
+    elif run_mode == 'ヘッドレスモード':
         # ヘッドレスモード
         options = Options()
         options.add_argument('--headless')
@@ -180,13 +178,12 @@ def main():
         my_mail, my_pass = auth_info.values()
 
         st.write('3. データ取得ボタンを押すと、進捗データのスクレイピングを開始します')
-        st.sidebar.write('ヘッドレスモードを解除する')
-        no_headless_mode = st.sidebar.checkbox('no headless mode')
+        run_mode = st.sidebar.selectbox('ブラウザ起動モードを選択する', ('ブラウザ起動モード', 'ヘッドレスモード'))
         scraping = st.empty()
         if scraping.button('データ取得'):
-            scraping.write('ヘッドレスモードでデータ取得中...')
+            scraping.write('データ取得中...')
             # 関数
-            df, df_text = scraping_progress_data(my_mail, my_pass, no_headless_mode)
+            df, df_text = scraping_progress_data(my_mail, my_pass, run_mode)
             scraping.success('データ取得が完了しました')
 
             # 各コース毎の進捗度一覧を表とグラフで可視化
