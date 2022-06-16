@@ -25,8 +25,9 @@ def scraping_progress_data(my_mail, my_pass, run_mode):
     elif run_mode == 'ヘッドレスモード':
         # ヘッドレスモード
         options = Options()
-        options.add_argument('--headless')
-        driver = webdriver.Chrome(service=service, chrome_options=options)
+        # options.add_argument('--headless') # for Selenium 3
+        options.headless = True # for Selenium 4
+        driver = webdriver.Chrome(service=service, options=options)
         # driver = webdriver.Chrome('chromedriver.exe', chrome_options=options)
 
     url = 'https://school.code4biz.jp/login'
