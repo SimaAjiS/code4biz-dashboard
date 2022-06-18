@@ -22,11 +22,11 @@ def scraping_progress_data(my_mail, my_pass, run_mode):
         # ブラウザ起動モード
         driver = webdriver.Chrome(service=service)
         # driver = webdriver.Chrome('chromedriver.exe')
-    elif run_mode == 'ヘッドレスモード':
+    elif run_mode == 'ヘッドレスモード(不具合)':
         # ヘッドレスモード
         options = Options()
-        # options.add_argument('--headless') # for Selenium 3
-        options.headless = True # for Selenium 4
+        options.add_argument('--headless')  # for Selenium 3
+        # options.headless = True # for Selenium 4
         driver = webdriver.Chrome(service=service, options=options)
         # driver = webdriver.Chrome('chromedriver.exe', chrome_options=options)
 
@@ -160,26 +160,28 @@ def place_metrics(df):
 
 def main():
     st.set_page_config(layout="wide")  # ワイドモードで表示
-    st.title('code4biz 学習進捗ダッシュボード')
-    st.sidebar.write('オプション')
+    st.write('### code4biz 学習進捗ダッシュボード')
+    st.sidebar.write('データ取得手順')
 
-    st.write('1. code4bizログイン用認証ファイルをJSON形式で各自のローカル環境に保存します')
+    st.sidebar.write('1. code4bizログイン用認証ファイルをJSON形式で保存')
     code = '''
     {"my_mail": "ABC@123",
     "my_pass": "DEF456"}
     '''
-    st.sidebar.write('JSON記載例')
     st.sidebar.code(code, language='json')
 
-    st.write('2. ローカルに保存した認証用JSONファイルを下記へ読み込ませます')
-    uploaded_file = st.file_uploader('', type=['json'])
+    st.sidebar.write('2. 認証用JSONファイルを下記へアップロード')
+    loader = st.sidebar.empty()
+    uploaded_file = loader.file_uploader('', type=['json'])
     if uploaded_file is not None:
         auth_info = json.load(uploaded_file)
         my_mail, my_pass = auth_info.values()
+        loader.success('認証に成功')
 
-        st.write('3. データ取得ボタンを押すと、進捗データのスクレイピングを開始します')
-        run_mode = st.sidebar.selectbox('ブラウザ起動モードを選択する', ('ブラウザ起動モード', 'ヘッドレスモード'))
-        scraping = st.empty()
+        st.sidebar.write(f'{"---" * 5}')
+        st.sidebar.write('3. ブラウザ動作モードの選択後、データ取得開始')
+        run_mode = st.sidebar.selectbox('', ('ブラウザ起動モード', 'ヘッドレスモード(不具合)'))
+        scraping = st.sidebar.empty()
         if scraping.button('データ取得'):
             scraping.write('データ取得中...')
             # 関数
