@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from time import sleep
 
 import matplotlib.pyplot as plt
@@ -119,6 +120,9 @@ def create_barplot_progress(df):
     # plt.figure(figsize=(6, 5))
     sns.barplot(data=df, y=df['Course name'], x=df['Progress[%]'], palette='deep', hue=df['Status'], ax=ax)
     plt.grid()
+    _time_stamp = datetime.now()
+    time_stamp = _time_stamp.strftime('%Y/%m/%d %H:%M')
+    plt.title(f'{time_stamp}時点の学習進捗')
     plt.legend(loc='upper left', bbox_to_anchor=(1.05, 1.0))
     plt.savefig('progress_bar.png', bbox_inches='tight')
     return fig, ax
