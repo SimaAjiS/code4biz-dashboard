@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 from time import sleep
+import os
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -14,6 +15,44 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 sns.set(style='dark', font='Meiryo')
 
+def get_driver():
+    path = os.getcwd()
+    driverPath = path + "/chromedriver"
+    headlessPath = path + "/headless-chromium"
+
+    options = Options()
+    options.binary_location = headlessPath
+    options.add_experimental_option("prefs", {
+        "profile.default_content_settings.popups": 0,
+        "download.prompt_for_download": "false",
+        "download.directory_upgrade": "true",
+        "plugins.always_open_pdf_externally": True
+    })
+    options.add_argument('--headless')
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1280x1696")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--hide-scrollbars")
+    options.add_argument("--enable-logging")
+    options.add_argument("--log-level=0")
+    options.add_argument("--v=99")
+    options.add_argument("--single-process")
+    options.add_argument("--ignore-certificate-errors")
+    options.add_argument("--disable-dev-shm-usage")
+    driver = webdriver.Chrome(driverPath, options=options)
+
+    driver.command_executor._commands["send_command"] = (
+        'POST',
+        '/session/$sessionId/chromium/send_command'
+    )
+    # driver.execute(
+    #     "send_command",
+    #     params={
+    #         'cmd': 'Page.setDownloadBehavior',
+    #         'params': { 'behavior': 'allow', 'downloadPath': dl_path }
+    # })
+
+    return driver
 
 @st.cache
 def scraping_progress_data(my_mail, my_pass, run_mode):
@@ -25,11 +64,12 @@ def scraping_progress_data(my_mail, my_pass, run_mode):
         # driver = webdriver.Chrome('chromedriver.exe')
     elif run_mode == 'ヘッドレスモード(不具合)':
         # ヘッドレスモード
-        options = Options()
-        options.add_argument('--headless')  # for Selenium 3
+        # options = Options()
+        # options.add_argument('--headless')  # for Selenium 3
         # options.headless = True # for Selenium 4
-        driver = webdriver.Chrome(service=service, options=options)
+        # driver = webdriver.Chrome(service=service, options=options)
         # driver = webdriver.Chrome('chromedriver.exe', chrome_options=options)
+        driver = get_driver()
 
     url = 'https://school.code4biz.jp/login'
     driver.get(url)
