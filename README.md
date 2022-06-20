@@ -26,4 +26,8 @@
     - 下記は一度やっておけば，次からは省略できる．後は普通にコミット
       - $ git lfs track {LARGE_FILE}            # {LARGE_FILE} を登録 
       - $ git add .gitattributes                # 登録済みファイルリストをadd
-    - 
+    - Error！
+      - selenium.common.exceptions.WebDriverException: Message: 'chromedriver' executable may have wrong permissions.
+      - Please see https://chromedriver.chromium.org/home
+      - パーミッションエラー
+      - 持ち越し
