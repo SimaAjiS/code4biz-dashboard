@@ -1,7 +1,3 @@
-# Franky1/Streamlit-Selenium 44
-# Streamlit project to test Selenium running in Streamlit sharing
-# https://github.com/Franky1/Streamlit-Selenium/blob/main/streamlit_app.py
-
 import glob
 import os
 
@@ -10,11 +6,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
-
-from webdriver_manager.chrome import ChromeDriverManager
-from webdriver_manager.utils import ChromeType
-
-driver = webdriver.Chrome(ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install())
 
 options = Options()
 options.add_argument("--headless")
@@ -39,9 +30,9 @@ def show_selenium_log():
 
 
 # not required anymore:
-def get_chromedriver_path():
-    results = glob.glob('/**/chromedriver', recursive=True)  # workaround on streamlit sharing
-    return results[0]
+# def get_chromedriver_path():
+#     results = glob.glob('/**/chromedriver', recursive=True)  # workaround on streamlit sharing
+#     return results[0]
 
 
 def run_selenium():
