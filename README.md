@@ -34,3 +34,5 @@
 - 2022/06/21
   - 下記を参考にテストアプリ
   - (https://discuss.streamlit.io/t/issue-with-selenium-on-a-streamlit-app/11563/21?page=2)
+  - (https://github.com/Franky1/Streamlit-Selenium)
+  - サンプルコードでのデプロイ成功確認！
