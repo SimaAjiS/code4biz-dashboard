@@ -1,7 +1,10 @@
-matplotlib
-pandas
-seaborn
-streamlit
-selenium
-webdriver_manager
-Flask
+# matplotlib
+# pandas
+# seaborn
+# streamlit
+# selenium
+# webdriver_manager
+# Flask
+
+selenium==4.2.0
+streamlit>=1.10.0

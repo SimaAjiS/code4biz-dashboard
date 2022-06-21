@@ -1,7 +1,7 @@
 import json
+import os
 from datetime import datetime
 from time import sleep
-import os
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -14,6 +14,7 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
 sns.set(style='dark', font='Meiryo')
+
 
 def get_driver():
     path = os.getcwd()
@@ -53,6 +54,7 @@ def get_driver():
     # })
 
     return driver
+
 
 @st.cache
 def scraping_progress_data(my_mail, my_pass, run_mode):
