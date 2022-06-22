@@ -29,7 +29,8 @@ options.add_argument("--disable-features=VizDisplayCompositor")
 
 
 @st.cache
-def scraping_progress_data(my_mail, my_pass, run_mode):
+# def scraping_progress_data(my_mail, my_pass, run_mode):
+def scraping_progress_data(my_mail, my_pass):
     # service = Service(ChromeDriverManager().install())
 
     # if run_mode == 'ブラウザ起動モード':
@@ -47,10 +48,14 @@ def scraping_progress_data(my_mail, my_pass, run_mode):
 
     with webdriver.Chrome(options=options, service_log_path='selenium.log') as driver:
         url = 'https://school.code4biz.jp/login'
+
         driver.get(url)
-        sleep(5)
+        sleep(0.5)
+        print('============= SGW1 ')
         print(driver.page_source)
+        print('============= SGW2 ')
         print(driver.current_url) # URLを確認する
+        print('============= SGW3 ')
 
         # ログインページ処理
         form = driver.find_element(by=By.CSS_SELECTOR, value='#new_member_session')
@@ -145,7 +150,7 @@ def create_barplot_progress(df):
     time_stamp = _time_stamp.strftime('%Y/%m/%d %H:%M')
     plt.title(f'{time_stamp}時点の学習進捗')
     plt.legend(loc='upper left', bbox_to_anchor=(1.05, 1.0))
-    plt.savefig('progress_bar.png', bbox_inches='tight')
+    # plt.savefig('progress_bar.png', bbox_inches='tight')
     return fig, ax
 
 
@@ -205,12 +210,13 @@ def main():
 
         st.sidebar.write(f'{"---" * 5}')
         st.sidebar.write('3. ブラウザ動作モードの選択後、データ取得開始')
-        run_mode = st.sidebar.selectbox('', ('ブラウザ起動モード', 'ヘッドレスモード(不具合)'))
+        # run_mode = st.sidebar.selectbox('', ('ブラウザ起動モード', 'ヘッドレスモード(不具合)'))
         scraping = st.sidebar.empty()
         if scraping.button('データ取得'):
             scraping.write('データ取得中...')
             # 関数
-            df, df_text = scraping_progress_data(my_mail, my_pass, run_mode)
+            # df, df_text = scraping_progress_data(my_mail, my_pass, run_mode)
+            df, df_text = scraping_progress_data(my_mail, my_pass)
             scraping.success('データ取得が完了しました')
 
             # 各コース毎の進捗度一覧を表とグラフで可視化
