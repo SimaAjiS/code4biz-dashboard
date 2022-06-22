@@ -209,7 +209,7 @@ def main():
 
         st.sidebar.write(f'{"---" * 5}')
         st.sidebar.write('3. ブラウザ動作モードの選択後、データ取得開始')
-        run_mode = st.sidebar.selectbox('', ('ブラウザ起動モード', 'ヘッドレスモード(不具合)'))
+        # run_mode = st.sidebar.selectbox('', ('ブラウザ起動モード', 'ヘッドレスモード(不具合)'))
         scraping = st.sidebar.empty()
         if scraping.button('データ取得'):
             scraping.write('データ取得中...')
