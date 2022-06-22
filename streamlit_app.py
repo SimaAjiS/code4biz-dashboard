@@ -49,7 +49,8 @@ def scraping_progress_data(my_mail, my_pass, run_mode):
         url = 'https://school.code4biz.jp/login'
         driver.get(url)
         sleep(5)
-
+        print(driver.page_source)
+        print(driver.current_url) # URLを確認する
 
         # ログインページ処理
         form = driver.find_element(by=By.CSS_SELECTOR, value='#new_member_session')
@@ -68,6 +69,7 @@ def scraping_progress_data(my_mail, my_pass, run_mode):
         # ログインボタンを押す
         btn = form.find_element(by=By.TAG_NAME, value='button')
         btn.click()
+        print(driver.current_url) # URLを確認する
 
         # ライブラリページ一覧ページへ
         courses = driver.find_elements(by=By.CLASS_NAME, value='product')
