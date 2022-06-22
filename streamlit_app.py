@@ -12,7 +12,7 @@ from selenium.webdriver.chrome.options import Options
 # from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 # from webdriver_manager.chrome import ChromeDriverManager
-# from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support.wait import WebDriverWait
 
 sns.set(style='dark', font='Meiryo')
 
@@ -58,9 +58,9 @@ def scraping_progress_data(my_mail, my_pass):
         print('============= SGW3 ')
 
         # ログインページ処理
-        form = driver.find_element(by=By.CSS_SELECTOR, value='#new_member_session')
+        # form = driver.find_element(by=By.CSS_SELECTOR, value='#new_member_session')
         # Wait for the element to be rendered:
-        # form = WebDriverWait(driver, 10).until(lambda x: x.find_elements(by=By.CSS_SELECTOR, value='#new_member_session'))
+        form = WebDriverWait(driver, 10).until(lambda x: x.find_elements(by=By.CSS_SELECTOR, value='#new_member_session'))
         login_mail = form.find_element(by=By.NAME, value='member[email]')
         login_passwd = form.find_element(by=By.NAME, value='member[password]')
 
