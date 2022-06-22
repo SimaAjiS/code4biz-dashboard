@@ -16,144 +16,116 @@ from webdriver_manager.chrome import ChromeDriverManager
 sns.set(style='dark', font='Meiryo')
 
 
-def get_driver():
-    path = os.getcwd()
-    driverPath = path + "/chromedriver"
-    headlessPath = path + "/headless-chromium"
+options = Options()
+options.add_argument("--headless")
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+options.add_argument("--disable-gpu")
+options.add_argument("--disable-features=NetworkService")
+options.add_argument("--window-size=1920x1080")
+options.add_argument("--disable-features=VizDisplayCompositor")
 
-    options = Options()
-    options.binary_location = headlessPath
-    options.add_experimental_option("prefs", {
-        "profile.default_content_settings.popups": 0,
-        "download.prompt_for_download": "false",
-        "download.directory_upgrade": "true",
-        "plugins.always_open_pdf_externally": True
-    })
-    options.add_argument('--headless')
-    options.add_argument("--disable-gpu")
-    options.add_argument("--window-size=1280x1696")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--hide-scrollbars")
-    options.add_argument("--enable-logging")
-    options.add_argument("--log-level=0")
-    options.add_argument("--v=99")
-    options.add_argument("--single-process")
-    options.add_argument("--ignore-certificate-errors")
-    options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(driverPath, options=options)
-
-    driver.command_executor._commands["send_command"] = (
-        'POST',
-        '/session/$sessionId/chromium/send_command'
-    )
-    # driver.execute(
-    #     "send_command",
-    #     params={
-    #         'cmd': 'Page.setDownloadBehavior',
-    #         'params': { 'behavior': 'allow', 'downloadPath': dl_path }
-    # })
-
-    return driver
 
 
 @st.cache
 def scraping_progress_data(my_mail, my_pass, run_mode):
-    service = Service(ChromeDriverManager().install())
+    # service = Service(ChromeDriverManager().install())
 
-    if run_mode == 'ブラウザ起動モード':
+    # if run_mode == 'ブラウザ起動モード':
         # ブラウザ起動モード
-        driver = webdriver.Chrome(service=service)
+        # driver = webdriver.Chrome(service=service)
         # driver = webdriver.Chrome('chromedriver.exe')
-    elif run_mode == 'ヘッドレスモード(不具合)':
+    # elif run_mode == 'ヘッドレスモード(不具合)':
         # ヘッドレスモード
         # options = Options()
         # options.add_argument('--headless')  # for Selenium 3
         # options.headless = True # for Selenium 4
         # driver = webdriver.Chrome(service=service, options=options)
         # driver = webdriver.Chrome('chromedriver.exe', chrome_options=options)
-        driver = get_driver()
+        # driver = get_driver()
 
-    url = 'https://school.code4biz.jp/login'
-    driver.get(url)
-    sleep(0.5)
-
-    # ログインページ処理
-    form = driver.find_element(by=By.CSS_SELECTOR, value='#new_member_session')
-    login_mail = form.find_element(by=By.NAME, value='member[email]')
-    login_passwd = form.find_element(by=By.NAME, value='member[password]')
-
-    login_mail.clear()
-    login_passwd.clear()
-
-    login_mail.send_keys(my_mail)
-    login_passwd.send_keys(my_pass)
-
-    sleep(0.5)
-    # ログインボタンを押す
-    btn = form.find_element(by=By.TAG_NAME, value='button')
-    btn.click()
-
-    # ライブラリページ一覧ページへ
-    courses = driver.find_elements(by=By.CLASS_NAME, value='product')
-
-    # 学習コースリンクのリスト作成
-    course_links = []
-    for course in courses:
-        course_link = course.find_elements(by=By.TAG_NAME, value='a')[0].get_attribute('href')
-        course_links.append(course_link)
-
-    data = []
-    data_text = []
-    for course_link in course_links:
-        driver.get(course_link)
+    with webdriver.Chrome(options=options, service_log_path='selenium.log') as driver:
+        url = 'https://school.code4biz.jp/login'
+        driver.get(url)
         sleep(0.5)
 
-        # コースタイトルの取得
-        _course_name = driver.find_element(by=By.TAG_NAME, value='h1').text
-        # course_name = _course_name.split('×')[-1].replace('コース', '')
-        course_name = _course_name.split('×')[-1]
+        # ログインページ処理
+        form = driver.find_element(by=By.CSS_SELECTOR, value='#new_member_session')
+        login_mail = form.find_element(by=By.NAME, value='member[email]')
+        login_passwd = form.find_element(by=By.NAME, value='member[password]')
 
-        # 進捗度の取得
-        progress = driver.find_element(by=By.CLASS_NAME, value='panel__heading').text
+        login_mail.clear()
+        login_passwd.clear()
 
-        # 文字列分割を行い、データ用意
-        lesson_done = int(progress.split(' ')[0])
-        lesson_total = int(progress.split(' ')[2])
-        if lesson_total != 0:
-            lesson_comp_rate = round(lesson_done / lesson_total * 100, 1)
-        else:
-            lesson_comp_rate = round(0, 1)
+        login_mail.send_keys(my_mail)
+        login_passwd.send_keys(my_pass)
 
-        # 判定式の用意
-        if lesson_comp_rate == 0:
-            status = 'Unstudied'
-        elif lesson_comp_rate == 100:
-            status = 'Complete'
-        else:
-            status = 'Studying'
+        sleep(0.5)
+        # ログインボタンを押す
+        btn = form.find_element(by=By.TAG_NAME, value='button')
+        btn.click()
 
-        datum = {
-            'Course name': course_name,
-            'Done lessons': lesson_done,
-            'Total lessons': lesson_total,
-            'Progress[%]': lesson_comp_rate,
-            'Status': status
-        }
-        data.append(datum)
+        # ライブラリページ一覧ページへ
+        courses = driver.find_elements(by=By.CLASS_NAME, value='product')
 
-        datum_text = {
-            'コース名': _course_name,
-            '進捗度': progress
-        }
-        data_text.append(datum_text)
-        log_text = f'{_course_name}...Done'
-        print(log_text)
-    driver.quit()
+        # 学習コースリンクのリスト作成
+        course_links = []
+        for course in courses:
+            course_link = course.find_elements(by=By.TAG_NAME, value='a')[0].get_attribute('href')
+            course_links.append(course_link)
 
-    # データフレームの準備
-    df = pd.DataFrame(data)
-    df_text = pd.DataFrame(data_text)
-    return df, df_text
+        data = []
+        data_text = []
+        for course_link in course_links:
+            driver.get(course_link)
+            sleep(0.5)
+
+            # コースタイトルの取得
+            _course_name = driver.find_element(by=By.TAG_NAME, value='h1').text
+            # course_name = _course_name.split('×')[-1].replace('コース', '')
+            course_name = _course_name.split('×')[-1]
+
+            # 進捗度の取得
+            progress = driver.find_element(by=By.CLASS_NAME, value='panel__heading').text
+
+            # 文字列分割を行い、データ用意
+            lesson_done = int(progress.split(' ')[0])
+            lesson_total = int(progress.split(' ')[2])
+            if lesson_total != 0:
+                lesson_comp_rate = round(lesson_done / lesson_total * 100, 1)
+            else:
+                lesson_comp_rate = round(0, 1)
+
+            # 判定式の用意
+            if lesson_comp_rate == 0:
+                status = 'Unstudied'
+            elif lesson_comp_rate == 100:
+                status = 'Complete'
+            else:
+                status = 'Studying'
+
+            datum = {
+                'Course name': course_name,
+                'Done lessons': lesson_done,
+                'Total lessons': lesson_total,
+                'Progress[%]': lesson_comp_rate,
+                'Status': status
+            }
+            data.append(datum)
+
+            datum_text = {
+                'コース名': _course_name,
+                '進捗度': progress
+            }
+            data_text.append(datum_text)
+            log_text = f'{_course_name}...Done'
+            print(log_text)
+        driver.quit()
+
+        # データフレームの準備
+        df = pd.DataFrame(data)
+        df_text = pd.DataFrame(data_text)
+        return df, df_text
 
 
 # 出力レポート（バープロット）

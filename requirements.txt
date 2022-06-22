@@ -1,8 +1,6 @@
-# matplotlib
-# pandas
-# seaborn
-# streamlit
-# selenium
+matplotlib
+pandas
+seaborn
 # webdriver_manager
 # Flask
 
