@@ -63,9 +63,10 @@ def scraping_progress_data(my_mail, my_pass, run_mode):
         login_passwd.clear()
 
         login_mail.send_keys(my_mail)
+        sleep(5)
         login_passwd.send_keys(my_pass)
 
-        sleep(0.5)
+        sleep(5)
         # ログインボタンを押す
         btn = form.find_element(by=By.TAG_NAME, value='button')
         btn.click()
