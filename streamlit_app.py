@@ -9,9 +9,9 @@ import seaborn as sns
 import streamlit as st
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-# from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-# from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.wait import WebDriverWait
 
 sns.set(style='dark', font='Meiryo')
@@ -31,7 +31,7 @@ options.add_argument("--disable-features=VizDisplayCompositor")
 @st.cache
 # def scraping_progress_data(my_mail, my_pass, run_mode):
 def scraping_progress_data(my_mail, my_pass):
-    # service = Service(ChromeDriverManager().install())
+    service = Service(ChromeDriverManager().install())
 
     # if run_mode == 'ブラウザ起動モード':
         # ブラウザ起動モード
@@ -47,19 +47,13 @@ def scraping_progress_data(my_mail, my_pass):
         # driver = get_driver()
 
     # with webdriver.Chrome(options=options, service_log_path='selenium.log') as driver:
-    with webdriver.Chrome(options=options) as driver:
+    with webdriver.Chrome(service=service, options=options) as driver:
         url = 'https://school.code4biz.jp/login'
         # 暗黙的な待機
         driver.implicitly_wait(10)
-        driver.set_window_size('1200', '1000')
 
         driver.get(url)
-        sleep(5)
-        print('============= SGW1 ')
-        print(driver.page_source)
-        print('============= SGW2 ')
-        print(driver.current_url) # URLを確認する
-        print('============= SGW3 ')
+
 
         # ログインページ処理
         form = driver.find_element(by=By.CSS_SELECTOR, value='#new_member_session')
