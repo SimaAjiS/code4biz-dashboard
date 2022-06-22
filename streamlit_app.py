@@ -31,7 +31,7 @@ options.add_argument("--disable-features=VizDisplayCompositor")
 @st.cache
 # def scraping_progress_data(my_mail, my_pass, run_mode):
 def scraping_progress_data(my_mail, my_pass):
-    service = Service(ChromeDriverManager().install())
+    # service = Service(ChromeDriverManager().install())
 
     # if run_mode == 'ブラウザ起動モード':
         # ブラウザ起動モード
@@ -47,7 +47,7 @@ def scraping_progress_data(my_mail, my_pass):
         # driver = get_driver()
 
     # with webdriver.Chrome(options=options, service_log_path='selenium.log') as driver:
-    with webdriver.Chrome(service=service, options=options) as driver:
+    with webdriver.Chrome(options=options) as driver:
         url = 'https://school.code4biz.jp/login'
 
         # 暗黙的な待機
