@@ -50,11 +50,11 @@ def scraping_progress_data(my_mail, my_pass, run_mode):
 
         driver.get(url)
         sleep(0.5)
-        print('============= SGW ')
+        print('============= SGW1 ')
         print(driver.page_source)
-        print('============= SGW ')
+        print('============= SGW2 ')
         print(driver.current_url) # URLを確認する
-        print('============= SGW ')
+        print('============= SGW3 ')
 
         # ログインページ処理
         form = driver.find_element(by=By.CSS_SELECTOR, value='#new_member_session')
