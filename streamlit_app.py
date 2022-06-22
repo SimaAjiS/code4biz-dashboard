@@ -48,6 +48,8 @@ def scraping_progress_data(my_mail, my_pass):
 
     with webdriver.Chrome(options=options, service_log_path='selenium.log') as driver:
         url = 'https://school.code4biz.jp/login'
+        # 暗黙的な待機
+        driver.implicitly_wait(10)
 
         driver.get(url)
         sleep(5)
@@ -58,9 +60,9 @@ def scraping_progress_data(my_mail, my_pass):
         print('============= SGW3 ')
 
         # ログインページ処理
-        # form = driver.find_element(by=By.CSS_SELECTOR, value='#new_member_session')
+        form = driver.find_element(by=By.CSS_SELECTOR, value='#new_member_session')
         # Wait for the element to be rendered:
-        form = WebDriverWait(driver, 10).until(lambda x: x.find_elements(by=By.CSS_SELECTOR, value='#new_member_session'))
+        # form = WebDriverWait(driver, 10).until(lambda x: x.find_elements(by=By.CSS_SELECTOR, value='#new_member_session'))
         login_mail = form.find_element(by=By.NAME, value='member[email]')
         login_passwd = form.find_element(by=By.NAME, value='member[password]')
 
@@ -150,7 +152,7 @@ def create_barplot_progress(df):
     time_stamp = _time_stamp.strftime('%Y/%m/%d %H:%M')
     plt.title(f'{time_stamp}時点の学習進捗')
     plt.legend(loc='upper left', bbox_to_anchor=(1.05, 1.0))
-    # plt.savefig('progress_bar.png', bbox_inches='tight')
+    plt.savefig('progress_bar.png', bbox_inches='tight')
     return fig, ax
 
 
