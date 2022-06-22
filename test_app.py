@@ -17,16 +17,16 @@ options.add_argument("--window-size=1920x1080")
 options.add_argument("--disable-features=VizDisplayCompositor")
 
 
-def delete_selenium_log():
-    if os.path.exists('selenium.log'):
-        os.remove('selenium.log')
-
-
-def show_selenium_log():
-    if os.path.exists('selenium.log'):
-        with open('selenium.log') as f:
-            content = f.read()
-            st.code(content)
+# def delete_selenium_log():
+#     if os.path.exists('selenium.log'):
+#         os.remove('selenium.log')
+#
+#
+# def show_selenium_log():
+#     if os.path.exists('selenium.log'):
+#         with open('selenium.log') as f:
+#             content = f.read()
+#             st.code(content)
 
 
 # not required anymore:
@@ -48,7 +48,7 @@ def run_selenium():
 
 
 if __name__ == "__main__":
-    delete_selenium_log()
+    # delete_selenium_log()
     st.set_page_config(page_title="Selenium Test", page_icon='✅',
         initial_sidebar_state='collapsed')
     st.title('🔨 Selenium Test for Streamlit Sharing')
@@ -71,4 +71,4 @@ if __name__ == "__main__":
         result = run_selenium()
         st.info(f'Result -> {result}')
         st.info('Successful finished. Selenium log file is shown below...')
-        show_selenium_log()
+        # show_selenium_log()
