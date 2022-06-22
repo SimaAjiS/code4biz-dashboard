@@ -51,6 +51,7 @@ def scraping_progress_data(my_mail, my_pass):
         url = 'https://school.code4biz.jp/login'
         # 暗黙的な待機
         driver.implicitly_wait(10)
+        driver.set_window_size('1200', '1000')
 
         driver.get(url)
         sleep(5)
