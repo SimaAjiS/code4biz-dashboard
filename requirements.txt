@@ -2,9 +2,5 @@ matplotlib
 pandas
 seaborn
 webdriver_manager
-# Flask
-
-# selenium==4.2.0
-# streamlit>=1.10.0
 selenium
 streamlit

@@ -12,13 +12,13 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
-# from selenium.webdriver.support.wait import WebDriverWait
 
 sns.set(style='dark', font='Meiryo')
 
 
 options = Options()
-options.add_argument("--headless")
+# options.add_argument("--headless")
+options.headless = True
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--disable-gpu")
@@ -49,16 +49,13 @@ def scraping_progress_data(my_mail, my_pass):
     # with webdriver.Chrome(options=options, service_log_path='selenium.log') as driver:
     with webdriver.Chrome(service=service, options=options) as driver:
         url = 'https://school.code4biz.jp/login'
+
         # 暗黙的な待機
         driver.implicitly_wait(10)
-
         driver.get(url)
-
 
         # ログインページ処理
         form = driver.find_element(by=By.CSS_SELECTOR, value='#new_member_session')
-        # Wait for the element to be rendered:
-        # form = WebDriverWait(driver, 10).until(lambda x: x.find_elements(by=By.CSS_SELECTOR, value='#new_member_session'))
         login_mail = form.find_element(by=By.NAME, value='member[email]')
         login_passwd = form.find_element(by=By.NAME, value='member[password]')
 
@@ -66,14 +63,11 @@ def scraping_progress_data(my_mail, my_pass):
         login_passwd.clear()
 
         login_mail.send_keys(my_mail)
-        sleep(5)
         login_passwd.send_keys(my_pass)
 
-        sleep(5)
         # ログインボタンを押す
         btn = form.find_element(by=By.TAG_NAME, value='button')
         btn.click()
-        print(driver.current_url) # URLを確認する
 
         # ライブラリページ一覧ページへ
         courses = driver.find_elements(by=By.CLASS_NAME, value='product')
@@ -207,7 +201,7 @@ def main():
         loader.success('認証に成功')
 
         st.sidebar.write(f'{"---" * 5}')
-        st.sidebar.write('3. ブラウザ動作モードの選択後、データ取得開始')
+        st.sidebar.write('3. ヘッドレスモードでデータ取得開始')
         # run_mode = st.sidebar.selectbox('', ('ブラウザ起動モード', 'ヘッドレスモード(不具合)'))
         scraping = st.sidebar.empty()
         if scraping.button('データ取得'):
