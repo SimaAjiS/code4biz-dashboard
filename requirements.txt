@@ -1,7 +1,7 @@
 matplotlib
 pandas
 seaborn
-# webdriver_manager
+webdriver_manager
 # Flask
 
 # selenium==4.2.0
