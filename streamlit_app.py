@@ -47,8 +47,9 @@ def scraping_progress_data(my_mail, my_pass, run_mode):
 
     with webdriver.Chrome(options=options, service_log_path='selenium.log') as driver:
         url = 'https://school.code4biz.jp/login'
-        print('get url')
+
         driver.get(url)
+        print('============= SGW ')
         sleep(5)
         print(driver.page_source)
         print(driver.current_url) # URLを確認する
