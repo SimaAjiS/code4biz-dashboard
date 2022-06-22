@@ -50,7 +50,7 @@ def scraping_progress_data(my_mail, my_pass):
         url = 'https://school.code4biz.jp/login'
 
         driver.get(url)
-        sleep(0.5)
+        sleep(5)
         print('============= SGW1 ')
         print(driver.page_source)
         print('============= SGW2 ')
