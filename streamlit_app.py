@@ -49,10 +49,12 @@ def scraping_progress_data(my_mail, my_pass, run_mode):
         url = 'https://school.code4biz.jp/login'
 
         driver.get(url)
+        sleep(0.5)
         print('============= SGW ')
-        sleep(5)
         print(driver.page_source)
+        print('============= SGW ')
         print(driver.current_url) # URLを確認する
+        print('============= SGW ')
 
         # ログインページ処理
         form = driver.find_element(by=By.CSS_SELECTOR, value='#new_member_session')
