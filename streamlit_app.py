@@ -12,7 +12,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
-# import japanize_matplotlib
+import japanize_matplotlib
 # sns.set(style='dark', font='Meiryo')
 sns.set(style='dark', font='IPAexGothic')
 

@@ -40,4 +40,4 @@
   - ヘッドレスモード再対応
   - Stremlit Cloudへのデプロイやっと完了！
   - 不要ファイルの整理とDevelopブランチをmainへマージ予定
-  - seaborn文字化けあり（ローカルは問題なし）
+  - リモートでのseaborn文字化け対応（Meiryo -> IPAexGothic)

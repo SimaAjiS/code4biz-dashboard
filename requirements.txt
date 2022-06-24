@@ -1,5 +1,5 @@
 matplotlib
-# japanize_matplotlib
+japanize_matplotlib
 pandas
 seaborn
 webdriver_manager
