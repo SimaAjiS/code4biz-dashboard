@@ -39,7 +39,7 @@ def scraping_progress_data(my_mail, my_pass, run_mode, progress_bar, progress_me
         options.add_argument("--disable-features=NetworkService")
         options.add_argument("--disable-features=VizDisplayCompositor")
 
-    with  webdriver.Chrome(service=service, options=options) as driver:
+    with webdriver.Chrome(service=service, options=options) as driver:
         url = 'https://school.code4biz.jp/login'
 
         # 暗黙的な待機
