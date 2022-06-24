@@ -6,13 +6,14 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 import streamlit as st
+from pytz import timezone
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
-import japanize_matplotlib
+# import japanize_matplotlib
 # sns.set(style='dark', font='Meiryo')
 sns.set(style='dark', font='IPAexGothic')
 
@@ -38,8 +39,6 @@ def scraping_progress_data(my_mail, my_pass, run_mode, progress_bar, progress_me
         options.add_argument("--disable-features=NetworkService")
         options.add_argument("--disable-features=VizDisplayCompositor")
 
-    # with webdriver.Chrome(options=options, service_log_path='selenium.log') as driver:
-    # with webdriver.Chrome(options=options) as driver:
     with  webdriver.Chrome(service=service, options=options) as driver:
         url = 'https://school.code4biz.jp/login'
 
@@ -140,7 +139,7 @@ def create_barplot_progress(df):
     fig, ax = plt.subplots()
     sns.barplot(data=df, y=df['Course name'], x=df['Progress[%]'], palette='deep', hue=df['Status'], ax=ax)
     plt.grid()
-    _time_stamp = datetime.now()
+    _time_stamp = datetime.now(timezone('Asia/Tokyo'))
     time_stamp = _time_stamp.strftime('%Y/%m/%d %H:%M')
     plt.title(f'{time_stamp}時点の学習進捗')
     plt.legend(loc='upper left', bbox_to_anchor=(1.05, 1.0))

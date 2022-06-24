@@ -5,3 +5,4 @@ seaborn
 webdriver_manager
 selenium
 streamlit
+pytz

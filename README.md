@@ -41,3 +41,5 @@
   - Stremlit Cloudへのデプロイやっと完了！
   - 不要ファイルの整理とDevelopブランチをmainへマージ予定
   - リモートでのseaborn文字化け対応（Meiryo -> IPAexGothic)
+- 2022/06/25
+  - リモート環境における進捗グラフのタイムゾーン不具合対応
