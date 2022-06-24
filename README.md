@@ -36,3 +36,7 @@
   - (https://discuss.streamlit.io/t/issue-with-selenium-on-a-streamlit-app/11563/21?page=2)
   - (https://github.com/Franky1/Streamlit-Selenium)
   - サンプルコードでのデプロイ成功確認！
+- 2022/06/24
+  - ヘッドレスモード再対応
+  - Stremlit Cloudへのデプロイやっと完了！
+  - 不要ファイルの整理とDevelopブランチをmainへマージ予定
