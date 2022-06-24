@@ -1,5 +1,4 @@
 import json
-import os
 from datetime import datetime
 from time import sleep
 
@@ -15,39 +14,31 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 sns.set(style='dark', font='Meiryo')
 
-
-options = Options()
-# options.add_argument("--headless")
-options.headless = True
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
-options.add_argument("--disable-gpu")
-options.add_argument("--disable-features=NetworkService")
-options.add_argument("--window-size=1920x1080")
-options.add_argument("--disable-features=VizDisplayCompositor")
+# ブラウザ起動有無選択
+# run_mode = 'ブラウザ起動モード'
+run_mode = 'ヘッドレスモード'
 
 
+# @st.cache
+def scraping_progress_data(my_mail, my_pass, run_mode, progress_bar, progress_message):
+    service = Service(ChromeDriverManager().install())
 
-@st.cache
-# def scraping_progress_data(my_mail, my_pass, run_mode):
-def scraping_progress_data(my_mail, my_pass):
-    # service = Service(ChromeDriverManager().install())
-
-    # if run_mode == 'ブラウザ起動モード':
-        # ブラウザ起動モード
-        # driver = webdriver.Chrome(service=service)
-        # driver = webdriver.Chrome('chromedriver.exe')
-    # elif run_mode == 'ヘッドレスモード(不具合)':
-        # ヘッドレスモード
-        # options = Options()
+    options = Options()
+    options.add_argument("--window-size=1920x1080")
+    if run_mode == 'ブラウザ起動モード':
+        pass
+    elif run_mode == 'ヘッドレスモード':
         # options.add_argument('--headless')  # for Selenium 3
-        # options.headless = True # for Selenium 4
-        # driver = webdriver.Chrome(service=service, options=options)
-        # driver = webdriver.Chrome('chromedriver.exe', chrome_options=options)
-        # driver = get_driver()
+        options.headless = True  # for Selenium 4
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--disable-features=NetworkService")
+        options.add_argument("--disable-features=VizDisplayCompositor")
 
     # with webdriver.Chrome(options=options, service_log_path='selenium.log') as driver:
-    with webdriver.Chrome(options=options) as driver:
+    # with webdriver.Chrome(options=options) as driver:
+    with  webdriver.Chrome(service=service, options=options) as driver:
         url = 'https://school.code4biz.jp/login'
 
         # 暗黙的な待機
@@ -66,6 +57,7 @@ def scraping_progress_data(my_mail, my_pass):
         login_passwd.send_keys(my_pass)
 
         # ログインボタンを押す
+        sleep(1)
         btn = form.find_element(by=By.TAG_NAME, value='button')
         btn.click()
 
@@ -80,6 +72,7 @@ def scraping_progress_data(my_mail, my_pass):
 
         data = []
         data_text = []
+        i = 1
         for course_link in course_links:
             driver.get(course_link)
             sleep(0.5)
@@ -124,7 +117,15 @@ def scraping_progress_data(my_mail, my_pass):
             data_text.append(datum_text)
             log_text = f'{_course_name}...Done'
             print(log_text)
+
+            # プログレスバー
+            progress_step = i / len(course_links)
+            progress_bar.progress(progress_step)
+            print(f'{i} / {len(course_links)} コース取得完了')
+            progress_message.write(f'{i} / {len(course_links)} コース取得完了')
+            i += 1
         driver.quit()
+        progress_message.write(f'データ加工中…（ 全{len(course_links)} コース ）')
 
         # データフレームの準備
         df = pd.DataFrame(data)
@@ -135,14 +136,12 @@ def scraping_progress_data(my_mail, my_pass):
 # 出力レポート（バープロット）
 def create_barplot_progress(df):
     fig, ax = plt.subplots()
-    # plt.figure(figsize=(6, 5))
     sns.barplot(data=df, y=df['Course name'], x=df['Progress[%]'], palette='deep', hue=df['Status'], ax=ax)
     plt.grid()
     _time_stamp = datetime.now()
     time_stamp = _time_stamp.strftime('%Y/%m/%d %H:%M')
     plt.title(f'{time_stamp}時点の学習進捗')
     plt.legend(loc='upper left', bbox_to_anchor=(1.05, 1.0))
-    plt.savefig('progress_bar.png', bbox_inches='tight')
     return fig, ax
 
 
@@ -181,10 +180,13 @@ def place_metrics(df):
 
 
 def main():
-    st.set_page_config(layout="wide")  # ワイドモードで表示
-    st.write('### code4biz 学習進捗ダッシュボード')
-    st.sidebar.write('データ取得手順')
+    st.set_page_config(layout="wide")
 
+    st.write('### code4biz 学習進捗ダッシュボード')
+    progress_bar = st.progress(0)
+    progress_message = st.empty()
+
+    st.sidebar.write('データ取得手順')
     st.sidebar.write('1. code4bizログイン用認証ファイルをJSON形式で保存')
     code = '''
     {"my_mail": "ABC@123",
@@ -201,14 +203,12 @@ def main():
         loader.success('認証に成功')
 
         st.sidebar.write(f'{"---" * 5}')
-        st.sidebar.write('3. ヘッドレスモードでデータ取得開始')
-        # run_mode = st.sidebar.selectbox('', ('ブラウザ起動モード', 'ヘッドレスモード(不具合)'))
+        st.sidebar.write('3. データ取得開始')
         scraping = st.sidebar.empty()
         if scraping.button('データ取得'):
-            scraping.write('データ取得中...')
+            scraping.write(f'{run_mode}でデータ取得中...')
             # 関数
-            # df, df_text = scraping_progress_data(my_mail, my_pass, run_mode)
-            df, df_text = scraping_progress_data(my_mail, my_pass)
+            df, df_text = scraping_progress_data(my_mail, my_pass, run_mode, progress_bar, progress_message)
             scraping.success('データ取得が完了しました')
 
             # 各コース毎の進捗度一覧を表とグラフで可視化
@@ -218,18 +218,19 @@ def main():
                 st.write('4. 各コース毎の進捗度一覧')
                 st.pyplot(fig)
 
-                with open("progress_bar.png", "rb") as f:
-                    st.download_button(
-                        label="Download image",
-                        data=f,
-                        file_name="progress_bar.png",
-                        mime="image/png"
-                    )
+                # with open("progress_bar.png", "rb") as f:
+                #     st.download_button(
+                #         label="Download image",
+                #         data=f,
+                #         file_name="progress_bar.png",
+                #         mime="image/png"
+                #     )
             with col_right:
                 st.dataframe(df_text)
 
             st.write('5. 各コース毎の進捗度指標')
             place_metrics(df)
+            progress_message.write(f'データ加工完了')
 
 
 if __name__ == '__main__':
