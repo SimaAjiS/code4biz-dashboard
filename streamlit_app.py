@@ -15,8 +15,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 # Streamlit Cloudでの文字化け対応に japanize_matplotlib 必要
 import japanize_matplotlib
-# sns.set(style='dark', font='IPAexGothic')
-sns.set(style='dark', font='VL Gothic')
+sns.set(style='dark', font='IPAexGothic')
+# sns.set(style='dark', font='VL Gothic')
 
 # ブラウザ起動有無選択
 # run_mode = 'ブラウザ起動モード'
