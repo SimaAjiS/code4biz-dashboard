@@ -1,8 +1,8 @@
-matplotlib
-japanize_matplotlib
-pandas
-seaborn
-webdriver_manager
-selenium
 streamlit
 pytz
+pandas
+matplotlib
+japanize_matplotlib
+seaborn
+webdriver_manager
+selenium==4.2.0
