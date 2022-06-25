@@ -64,8 +64,8 @@ def scraping_progress_data(my_mail, my_pass, run_mode, progress_bar, progress_me
         btn.click()
 
         # 読み込んだログイン情報をクリア
-        login_mail.clear()
-        login_passwd.clear()
+        # login_mail.clear()
+        # login_passwd.clear()
 
         # ライブラリページ一覧ページへ
         courses = driver.find_elements(by=By.CLASS_NAME, value='product')
