@@ -63,10 +63,10 @@ def scraping_progress_data(my_mail, my_pass, run_mode, progress_bar, progress_me
         btn = form.find_element(by=By.TAG_NAME, value='button')
         btn.click()
 
-        # 読み込んだログイン情報をクリア
-        sleep(2)
-        login_mail.clear()
-        login_passwd.clear()
+        # 読み込んだログイン情報をクリア 2022/6/25ここを明記するとSeleniumエラー
+        # sleep(2)
+        # login_mail.clear()
+        # login_passwd.clear()
 
         # ライブラリページ一覧ページへ
         courses = driver.find_elements(by=By.CLASS_NAME, value='product')
