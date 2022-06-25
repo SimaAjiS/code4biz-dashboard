@@ -51,6 +51,7 @@ def scraping_progress_data(my_mail, my_pass, run_mode, progress_bar, progress_me
         login_mail = form.find_element(by=By.NAME, value='member[email]')
         login_passwd = form.find_element(by=By.NAME, value='member[password]')
 
+        # ログイン情報初期化
         login_mail.clear()
         login_passwd.clear()
 
@@ -61,6 +62,10 @@ def scraping_progress_data(my_mail, my_pass, run_mode, progress_bar, progress_me
         sleep(1)
         btn = form.find_element(by=By.TAG_NAME, value='button')
         btn.click()
+
+        # 読み込んだログイン情報をクリア
+        login_mail.clear()
+        login_passwd.clear()
 
         # ライブラリページ一覧ページへ
         courses = driver.find_elements(by=By.CLASS_NAME, value='product')
@@ -80,7 +85,6 @@ def scraping_progress_data(my_mail, my_pass, run_mode, progress_bar, progress_me
 
             # コースタイトルの取得
             _course_name = driver.find_element(by=By.TAG_NAME, value='h1').text
-            # course_name = _course_name.split('×')[-1].replace('コース', '')
             course_name = _course_name.split('×')[-1]
 
             # 進捗度の取得
@@ -181,7 +185,7 @@ def place_metrics(df):
 
 
 def main():
-    st.set_page_config(layout="wide")
+    st.set_page_config(page_title="code4biz学習ダッシュボード", layout="wide")
 
     st.write('### code4biz 学習進捗ダッシュボード')
     progress_bar = st.progress(0)
@@ -219,13 +223,6 @@ def main():
                 st.write('4. 各コース毎の進捗度一覧')
                 st.pyplot(fig)
 
-                # with open("progress_bar.png", "rb") as f:
-                #     st.download_button(
-                #         label="Download image",
-                #         data=f,
-                #         file_name="progress_bar.png",
-                #         mime="image/png"
-                #     )
             with col_right:
                 st.dataframe(df_text)
 
