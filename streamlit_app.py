@@ -14,7 +14,6 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Streamlit Cloudでの文字化け対応に japanize_matplotlib 必要
-import japanize_matplotlib
 sns.set(style='dark', font='IPAexGothic')
 
 # ブラウザ起動有無選択
@@ -45,11 +44,14 @@ def scraping_progress_data(my_mail, my_pass, run_mode, progress_bar, progress_me
         # 暗黙的な待機
         driver.implicitly_wait(10)
         driver.get(url)
+        sleep(1)
 
         # ログインページ処理
         form = driver.find_element(by=By.CSS_SELECTOR, value='#new_member_session')
         login_mail = form.find_element(by=By.NAME, value='member[email]')
         login_passwd = form.find_element(by=By.NAME, value='member[password]')
+        # login_mail = form.find_element(by=By.CSS_SELECTOR, value='#member_email')
+        # login_passwd = form.find_element(by=By.CSS_SELECTOR, value='#member_password')
 
         # ログイン情報初期化
         login_mail.clear()
