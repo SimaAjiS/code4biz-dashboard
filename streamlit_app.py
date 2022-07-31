@@ -17,8 +17,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 sns.set(style='dark', font='IPAexGothic')
 
 # ブラウザ起動有無選択
-# run_mode = 'ブラウザ起動モード'
-run_mode = 'ヘッドレスモード'
+run_mode = 'ブラウザ起動モード'
+# run_mode = 'ヘッドレスモード'
 
 
 # @st.cache

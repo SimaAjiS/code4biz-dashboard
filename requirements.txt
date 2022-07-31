@@ -5,4 +5,5 @@ matplotlib
 japanize_matplotlib
 seaborn
 webdriver_manager
-selenium==4.2.0
+# selenium==4.2.0
+selenium
