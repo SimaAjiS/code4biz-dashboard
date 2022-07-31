@@ -14,7 +14,7 @@ from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Streamlit Cloudでの文字化け対応に japanize_matplotlib 必要
-sns.set(style='dark', font='IPAexGothic')
+sns.set(style='dark', font='Hiragino Maru Gothic Pro')
 
 # ブラウザ起動有無選択
 run_mode = 'ブラウザ起動モード'
